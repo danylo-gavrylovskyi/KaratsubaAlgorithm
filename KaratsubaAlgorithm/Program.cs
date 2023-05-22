@@ -1,5 +1,5 @@
-﻿var x = new BigInteger("1313234242425");
-var y = new BigInteger("1234556789");
+﻿var x = new BigInteger("-1313234242425");
+var y = new BigInteger("-1234556789");
 //var x = new BigInteger("123456");
 //var y = new BigInteger("1234");
 var result = x.Add(y);
@@ -22,6 +22,10 @@ public class BigInteger
         int dim = (_isPositive) ? str.Length : str.Length - 1;
         _numbers = new int[dim];
         _snumbers = "";
+        if (!_isPositive)
+        {
+            str = str.TrimStart('-');
+        }
         for (int i = 0; i < dim; i++)
         {
             _numbers[dim - 1 - i] = int.Parse(str[i].ToString());
