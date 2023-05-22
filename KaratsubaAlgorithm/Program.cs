@@ -1,5 +1,9 @@
 ﻿var x = new BigInteger("1313234242425");
-Console.WriteLine(x);
+var y = new BigInteger("1234556789");
+//var x = new BigInteger("123456");
+//var y = new BigInteger("1234");
+var result = x.Add(y);
+Console.WriteLine(result);
 public class BigInteger
 {
     private int[] _numbers;
@@ -35,6 +39,35 @@ public class BigInteger
         }
         return res;
     }
-    //public BigInteger Add(BigInteger another)
+    public BigInteger Add(BigInteger another)
+    {
+        int[] firstNumber = _numbers;
+        int[] secondNumber = another._numbers;
+        int[] tmpResult = new int[Math.Max(firstNumber.Length, secondNumber.Length)];
+        BigInteger result = new BigInteger();
+        int remember = 0;
 
+        if (_isPositive && !another._isPositive)
+        {
+            return null; // this.Subtraction 
+        }
+        else if (another._isPositive && !_isPositive) 
+        {
+            return null; // another.Subtraction
+        }
+        else
+        {
+            for (int i = 0; i < tmpResult.Length; i++)
+            {
+                int sum = remember;
+                sum += i < firstNumber.Length ? firstNumber[i] : 0;
+                sum += i < secondNumber.Length ? secondNumber[i] : 0;
+                tmpResult[i] = sum % 10;
+                remember = sum / 10;
+            }
+            result = new BigInteger(string.Join("", tmpResult.Reverse()));
+            result._isPositive = !another._isPositive && !_isPositive ? false : true;
+            return result;
+        }
+    }
 }
