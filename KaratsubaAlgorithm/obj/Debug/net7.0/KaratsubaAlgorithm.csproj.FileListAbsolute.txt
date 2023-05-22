@@ -1,0 +1,15 @@
+C:\Meine\C#\KaratsubaAlgorithm\KaratsubaAlgorithm\bin\Debug\net7.0\KaratsubaAlgorithm.exe
+C:\Meine\C#\KaratsubaAlgorithm\KaratsubaAlgorithm\bin\Debug\net7.0\KaratsubaAlgorithm.deps.json
+C:\Meine\C#\KaratsubaAlgorithm\KaratsubaAlgorithm\bin\Debug\net7.0\KaratsubaAlgorithm.runtimeconfig.json
+C:\Meine\C#\KaratsubaAlgorithm\KaratsubaAlgorithm\bin\Debug\net7.0\KaratsubaAlgorithm.dll
+C:\Meine\C#\KaratsubaAlgorithm\KaratsubaAlgorithm\bin\Debug\net7.0\KaratsubaAlgorithm.pdb
+C:\Meine\C#\KaratsubaAlgorithm\KaratsubaAlgorithm\obj\Debug\net7.0\KaratsubaAlgorithm.csproj.AssemblyReference.cache
+C:\Meine\C#\KaratsubaAlgorithm\KaratsubaAlgorithm\obj\Debug\net7.0\KaratsubaAlgorithm.GeneratedMSBuildEditorConfig.editorconfig
+C:\Meine\C#\KaratsubaAlgorithm\KaratsubaAlgorithm\obj\Debug\net7.0\KaratsubaAlgorithm.AssemblyInfoInputs.cache
+C:\Meine\C#\KaratsubaAlgorithm\KaratsubaAlgorithm\obj\Debug\net7.0\KaratsubaAlgorithm.AssemblyInfo.cs
+C:\Meine\C#\KaratsubaAlgorithm\KaratsubaAlgorithm\obj\Debug\net7.0\KaratsubaAlgorithm.csproj.CoreCompileInputs.cache
+C:\Meine\C#\KaratsubaAlgorithm\KaratsubaAlgorithm\obj\Debug\net7.0\KaratsubaAlgorithm.dll
+C:\Meine\C#\KaratsubaAlgorithm\KaratsubaAlgorithm\obj\Debug\net7.0\refint\KaratsubaAlgorithm.dll
+C:\Meine\C#\KaratsubaAlgorithm\KaratsubaAlgorithm\obj\Debug\net7.0\KaratsubaAlgorithm.pdb
+C:\Meine\C#\KaratsubaAlgorithm\KaratsubaAlgorithm\obj\Debug\net7.0\KaratsubaAlgorithm.genruntimeconfig.cache
+C:\Meine\C#\KaratsubaAlgorithm\KaratsubaAlgorithm\obj\Debug\net7.0\ref\KaratsubaAlgorithm.dll
