@@ -3,6 +3,7 @@ var y = new BigInteger("-1234556789");
 //var x = new BigInteger("123456");
 //var y = new BigInteger("1234");
 var result = x.Add(y);
+//var result = x.Substraction(y);
 Console.WriteLine(result);
 public class BigInteger
 {
@@ -53,11 +54,8 @@ public class BigInteger
 
         if (_isPositive && !another._isPositive)
         {
-            return null; // this.Subtraction 
-        }
-        else if (another._isPositive && !_isPositive) 
-        {
-            return null; // another.Subtraction
+            another._isPositive = true;
+            return Substraction(another);
         }
         else
         {
@@ -70,7 +68,40 @@ public class BigInteger
                 remember = sum / 10;
             }
             result = new BigInteger(string.Join("", tmpResult.Reverse()));
-            result._isPositive = !another._isPositive && !_isPositive ? false : true;
+            result._isPositive = !another._isPositive && !_isPositive ? false : _isPositive;
+            return result;
+        }
+    }
+
+    public BigInteger Substraction(BigInteger another)
+    {
+        int[] firstNumber = _numbers;
+        int[] secondNumber = another._numbers;
+        int[] tmpResult = new int[Math.Max(firstNumber.Length, secondNumber.Length)];
+        BigInteger result = new BigInteger();
+        int remember = 0;
+
+        if (_isPositive && !another._isPositive)
+        {
+            another._isPositive = true;
+            return Add(another);
+        }
+        else if (!_isPositive && another._isPositive)
+        {
+            return Add(another);
+        }
+        else
+        {
+            for (int i = 0; i < tmpResult.Length; i++)
+            {
+                int sum = remember;
+                sum += i < firstNumber.Length ? firstNumber[i] : 0;
+                sum -= i < secondNumber.Length ? secondNumber[i] : 0;
+                tmpResult[i] = (10 + sum) % 10;
+                remember = sum < 0 ? -1 : 0;
+            }
+            result = new BigInteger(string.Join("", tmpResult.Reverse()));
+            result._isPositive = !another._isPositive && !_isPositive ? false : _isPositive;
             return result;
         }
     }
