@@ -1,17 +1,54 @@
 ﻿//var x = new BigInteger("1313234242425");
 //var y = new BigInteger("1234556789");
-var x = new BigInteger("12345");
+var x = new BigInteger("-12345");
 var y = new BigInteger("1234");
-//var result = x.Add(y);
-//var result = x.Substraction(y);
 BigInteger result = x * y;
 Console.WriteLine(result);
+int[] array = { 10, 80, 30, 90, 40, 50, 70 };
+QuickSort(array, 0, array.Length - 1);
+Console.WriteLine(string.Join(" ", array));
+
+void QuickSort(int[] array, int startIndex, int endingIndex)
+{
+    if (startIndex < endingIndex)
+    {
+        int partitionIndex = Partition(array, startIndex, endingIndex);
+        QuickSort(array, startIndex, partitionIndex - 1);
+        QuickSort(array, partitionIndex + 1, endingIndex);
+    }
+}
+
+void Swap(ref int firstNum, ref int secondNum)
+{
+    int tmp = firstNum;
+    firstNum = secondNum;
+    secondNum = tmp;
+}
+
+int Partition(int[] array, int startIndex, int endingIndex)
+{
+    int topNumber = array[endingIndex];
+    int index = startIndex - 1;
+
+    for (int i = startIndex; i <= endingIndex - 1; i++)
+    {
+        if (array[i] < topNumber)
+        {
+            index++;
+            Swap(ref array[index], ref array[i]);
+        }
+    }
+
+    Swap(ref array[index + 1], ref array[endingIndex]);
+    return index + 1;
+}
 
 public class BigInteger
 {
     private int[] _numbers;
     private string _snumbers;
     private bool _isPositive;
+    private bool multiplyIsPositive;
     public BigInteger()
     {
         _numbers = new int[1];
@@ -39,12 +76,13 @@ public class BigInteger
     public override string ToString()
     {
         string res = "";
-        if (!_isPositive) res += "-";
+        if (!_isPositive || !multiplyIsPositive) res += "-";
         for (int i = 0; i < _snumbers.Length; i++)
         {
             res += _snumbers[_snumbers.Length - 1 - i];
         }
-        res = res[0] == '0' ? res.TrimStart('0') : res;
+        res = res[0] == '-' && res[1] == '0' ? "-" + res.TrimStart('-').TrimStart('0') : res;
+        res = res[0] == '0' || res[1] == '0' ? res.TrimStart('0') : res;
         return res;
     }
     public BigInteger Add(BigInteger another)
@@ -58,6 +96,12 @@ public class BigInteger
         if (_isPositive && !another._isPositive)
         {
             another._isPositive = true;
+            return Substraction(another);
+        }
+        else if (!_isPositive && another._isPositive)
+        {
+            _isPositive = false;
+            another._isPositive = false;
             return Substraction(another);
         }
         else
@@ -109,15 +153,6 @@ public class BigInteger
         }
     }
 
-    private BigInteger ShiftLeft(int length)
-    {
-        BigInteger result = new BigInteger();
-        result._numbers = new int[_numbers.Length + length];
-        Array.Copy(_numbers, 0, result._numbers, length, _numbers.Length);
-        result._snumbers = string.Join("", result._numbers.Reverse());
-        return result;
-    }
-
     private BigInteger AddZeros(BigInteger number, int amount)
     {
         int[] result = new int[number._numbers.Length + amount];
@@ -130,7 +165,7 @@ public class BigInteger
         return number;
     }
 
-    public string GetSecondHalf(int halfLength)
+    private string GetSecondHalf(int halfLength)
     {
         string result = "";
         string finalResult = "";
@@ -144,15 +179,10 @@ public class BigInteger
         }
         return finalResult;
     }
-    public string GetFirstHalf(int halfLength)
+    private string GetFirstHalf(int halfLength)
     {
         string result = "";
         string finalResult = "";
-
-        for (int i = 0; i < _numbers.Length; i++)
-        {
-            result += _numbers[i].ToString();
-        }
 
         result = string.Join("", _numbers).Substring(halfLength);
 
@@ -163,12 +193,20 @@ public class BigInteger
         }
         return finalResult;
     }
+
     public BigInteger Karatsuba(BigInteger another)
     {
-        int[] firstNumber = _numbers;
-        int[] secondNumber = another._numbers;
         string firstNumStr = string.Join("", _numbers);
         string secondNumStr = string.Join("", another._numbers);
+
+        if ((!_isPositive && another._isPositive) || (_isPositive && !another._isPositive))
+        {
+            multiplyIsPositive = false;
+        }
+        else if (!_isPositive && !another._isPositive)
+        {
+            multiplyIsPositive = true;
+        }
 
         int maxLength = Math.Max(_numbers.Length, another._numbers.Length);
         if (_numbers.Length > another._numbers.Length)
@@ -203,80 +241,5 @@ public class BigInteger
     public static BigInteger operator +(BigInteger firstNumber, BigInteger secondNumber) => firstNumber.Add(secondNumber);
     public static BigInteger operator -(BigInteger firstNumber, BigInteger secondNumber) => firstNumber.Substraction(secondNumber);
     public static BigInteger operator *(BigInteger firstNumber, BigInteger secondNumber) => firstNumber.Karatsuba(secondNumber);
-
-    //public BigInteger Karatsuba(BigInteger another)
-    //{
-    //    int[] firstNumber = _numbers;
-    //    int[] secondNumber = another._numbers;
-    //    string firstNumStr = string.Join("", _numbers);
-    //    string secondNumStr = string.Join("", another._numbers);
-
-    //    int maxLength = Math.Max(_numbers.Length, another._numbers.Length);
-    //    if (_numbers.Length > another._numbers.Length)
-    //    {
-    //        Array.Resize(ref another._numbers, maxLength);
-    //    }
-    //    else if (_numbers.Length < another._numbers.Length)
-    //    {
-    //        Array.Resize(ref _numbers, maxLength);
-    //    }
-
-    //    if (maxLength == 1)
-    //    {
-    //        int result = int.Parse(firstNumStr) * int.Parse(secondNumStr);
-    //        return new BigInteger(result.ToString());
-    //    }
-
-    //    int halfLength = maxLength / 2;
-    //    var firstNumFirstHalf = new BigInteger(string.Join("", firstNumber[halfLength..]));
-    //    var firstNumSecondHalf = new BigInteger(string.Join("", firstNumber[0..halfLength]));
-    //    var secondNumFirstHalf = new BigInteger(string.Join("", secondNumber[halfLength..]));
-    //    var secondNumSecondHalf = new BigInteger(string.Join("", secondNumber[0..halfLength]));
-
-    //    BigInteger resultOfFirstHalfs = firstNumFirstHalf.Karatsuba(secondNumFirstHalf);
-    //    BigInteger resultOfSecondHalfs = firstNumSecondHalf.Karatsuba(secondNumSecondHalf);
-    //    //BigInteger resultOfAllHalfs = (firstNumFirstHalf + firstNumSecondHalf).Karatsuba(secondNumFirstHalf + secondNumSecondHalf) - resultOfFirstHalfs - resultOfSecondHalfs;
-    //    BigInteger resultOfAllHalfs = (firstNumFirstHalf + firstNumSecondHalf).Karatsuba(secondNumFirstHalf + secondNumSecondHalf);
-
-    //    //BigInteger finalResult = AddZeros(resultOfFirstHalfs, halfLength * 2) + AddZeros(resultOfAllHalfs, halfLength) + resultOfSecondHalfs;
-    //    BigInteger finalResult = AddZeros(resultOfSecondHalfs, halfLength * 2) + AddZeros(resultOfAllHalfs - resultOfSecondHalfs - resultOfFirstHalfs, halfLength) + resultOfFirstHalfs;
-    //    return finalResult;
-    //}
-
-    //public BigInteger Karatsuba(BigInteger another)
-    //{
-    //    string firstNumber = string.Join("", _numbers.Reverse());
-    //    string secondNumber = string.Join("", another._numbers.Reverse());
-
-    //    int maxLength = Math.Max(firstNumber.Length, secondNumber.Length);
-    //    firstNumber = firstNumber.PadLeft(maxLength, '0');
-    //    secondNumber = secondNumber.PadLeft(maxLength, '0');
-
-    //    if (maxLength == 1)
-    //    {
-    //        int result = int.Parse(firstNumber) * int.Parse(secondNumber);
-    //        return new BigInteger(result.ToString());
-    //    }
-
-    //    int halfLength = maxLength / 2;
-    //    string firstNumFirstHalf = firstNumber.Substring(halfLength);
-    //    string firstNumSecondHalf = firstNumber.Substring(0, halfLength);
-    //    string secondNumFirstHalf = secondNumber.Substring(halfLength);
-    //    string secondNumSecondHalf = secondNumber.Substring(0, halfLength);
-
-    //    BigInteger resultOfFirstHalfs = new BigInteger(firstNumFirstHalf).Karatsuba(new BigInteger(secondNumFirstHalf));
-    //    BigInteger resultOfSecondHalfs = new BigInteger(firstNumSecondHalf).Karatsuba(new BigInteger(secondNumSecondHalf));
-    //    BigInteger resultOfAllHalfs = ((new BigInteger(firstNumFirstHalf).Add
-    //        (new BigInteger(firstNumSecondHalf))).Karatsuba
-    //        (new BigInteger(secondNumFirstHalf).Add
-    //        (new BigInteger(secondNumSecondHalf))).Substraction
-    //        (resultOfFirstHalfs)).Substraction
-    //        (resultOfSecondHalfs);
-
-
-    //    BigInteger finalResult = resultOfFirstHalfs.ShiftLeft(2 * halfLength).Add(resultOfAllHalfs.ShiftLeft(halfLength)).Add(resultOfSecondHalfs);
-
-    //    return finalResult;
-    //}
 
 }
